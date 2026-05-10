@@ -1,6 +1,6 @@
 {
-  "name": "WiFiSpeed Pro",
-  "description": "Website penjualan paket WiFi bulanan dengan fitur dashboard admin untuk mengatur harga dan promosi.",
+  "name": "Wiznet",
+  "description": "Website penjualan paket WiFi bulanan dari Wiznet.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }

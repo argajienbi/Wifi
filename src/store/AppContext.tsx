@@ -24,6 +24,7 @@ export interface SiteContent {
 interface AppState {
   content: SiteContent;
   packages: WifiPackage[];
+  isAuthenticated: boolean;
 }
 
 interface AppContextType extends AppState {
@@ -31,47 +32,59 @@ interface AppContextType extends AppState {
   addPackage: (pkg: WifiPackage) => void;
   updatePackage: (id: string, pkg: Partial<WifiPackage>) => void;
   deletePackage: (id: string) => void;
+  login: (password: string) => boolean;
+  logout: () => void;
 }
 
 const defaultContent: SiteContent = {
-  heroTitle: "Internet Super Cepat, Tanpa Batas Kuota",
-  heroSubtitle: "Nikmati koneksi internet stabil untuk streaming, gaming, dan bekerja dari rumah dengan harga spesial bulan ini.",
+  heroTitle: "Internet unlimited wiznet promo bulan mei.",
+  heroSubtitle: "Free instalasi, gratis stb tv kabel, internet 1:1.",
   heroImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=2070&auto=format&fit=crop",
   promoActive: true,
   promoText: "🔥 DISKON SPESIAL HINGGA 30% HANYA UNTUK BULAN INI! 🔥",
-  whatsappNumber: "6281234567890"
+  whatsappNumber: "6281310940089"
 };
 
 const defaultPackages: WifiPackage[] = [
   {
     id: "pkg-1",
-    name: "Paket Basic",
-    speed: "20 Mbps",
-    normalPrice: 150000,
+    name: "Paket Flash",
+    speed: "100 Mbps",
+    normalPrice: 220890,
     promoPrice: null,
-    features: ["Download & Upload Cepat", "Cocok untuk 1-3 Perangkat", "Bantuan Support 24/7", "Gratis Instalasi"],
+    features: ["Free Instalasi", "Gratis STB + TV Kabel", "Internet 1 : 1"],
     popular: false,
-    icon: "home"
+    icon: "zap"
   },
   {
     id: "pkg-2",
-    name: "Paket Standard",
-    speed: "50 Mbps",
-    normalPrice: 280000,
-    promoPrice: 249000,
-    features: ["Streaming HD Tanpa Buffering", "Cocok untuk 4-7 Perangkat", "Prioritas Support VIP", "Router Dual-band Gratis"],
+    name: "Paket Turbo",
+    speed: "150 Mbps",
+    normalPrice: 243090,
+    promoPrice: null,
+    features: ["Free Instalasi", "Gratis STB + TV Kabel", "Internet 1 : 1"],
     popular: true,
-    icon: "wifi"
+    icon: "zap"
   },
   {
     id: "pkg-3",
-    name: "Paket Gamer Pro",
-    speed: "100 Mbps",
-    normalPrice: 450000,
-    promoPrice: 399000,
-    features: ["Ping Rendah, No Lag", "Cocok untuk >10 Perangkat", "IP Publik Dinamis", "Router Gaming Premium"],
+    name: "Paket Blaze",
+    speed: "200 Mbps",
+    normalPrice: 309690,
+    promoPrice: null,
+    features: ["Free Instalasi", "Gratis STB + TV Kabel", "Internet 1 : 1"],
     popular: false,
     icon: "gamepad"
+  },
+  {
+    id: "pkg-4",
+    name: "Paket Thunder",
+    speed: "250 Mbps",
+    normalPrice: 376290,
+    promoPrice: null,
+    features: ["Free Instalasi", "Gratis STB + TV Kabel", "Internet 1 : 1"],
+    popular: false,
+    icon: "building"
   }
 ];
 
@@ -79,22 +92,42 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(() => {
-    const saved = localStorage.getItem('wifiStoreContent');
+    const saved = localStorage.getItem('wiznetStoreContent');
     return saved ? JSON.parse(saved) : defaultContent;
   });
 
   const [packages, setPackages] = useState<WifiPackage[]>(() => {
-    const saved = localStorage.getItem('wifiStorePackages');
+    const saved = localStorage.getItem('wiznetStorePackages');
     return saved ? JSON.parse(saved) : defaultPackages;
   });
 
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem('wiznetStoreAuth') === 'true';
+  });
+
   useEffect(() => {
-    localStorage.setItem('wifiStoreContent', JSON.stringify(content));
+    localStorage.setItem('wiznetStoreContent', JSON.stringify(content));
   }, [content]);
 
   useEffect(() => {
-    localStorage.setItem('wifiStorePackages', JSON.stringify(packages));
+    localStorage.setItem('wiznetStorePackages', JSON.stringify(packages));
   }, [packages]);
+
+  useEffect(() => {
+    localStorage.setItem('wiznetStoreAuth', isAuthenticated.toString());
+  }, [isAuthenticated]);
+
+  const login = (password: string) => {
+    if (password === 'admin123') {
+      setIsAuthenticated(true);
+      return true;
+    }
+    return false;
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+  };
 
   const updateContent = (newContent: Partial<SiteContent>) => {
     setContent(prev => ({ ...prev, ...newContent }));
@@ -113,7 +146,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   return (
-    <AppContext.Provider value={{ content, packages, updateContent, addPackage, updatePackage, deletePackage }}>
+    <AppContext.Provider value={{ content, packages, isAuthenticated, login, logout, updateContent, addPackage, updatePackage, deletePackage }}>
       {children}
     </AppContext.Provider>
   );

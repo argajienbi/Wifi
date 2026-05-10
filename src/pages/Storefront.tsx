@@ -7,6 +7,19 @@ const formatRp = (amount: number) => {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
 };
 
+const WhatsappIcon = ({ size = 24, className = "" }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    className={className}
+    fill="currentColor"
+  >
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+);
+
 export default function Storefront() {
   const { content, packages } = useAppContext();
 
@@ -42,23 +55,20 @@ export default function Storefront() {
     <div className="min-h-screen flex flex-col font-sans">
       {/* Promo Banner */}
       {content.promoActive && (
-        <div className="bg-slate-900 text-orange-400 text-center py-3 px-4 font-bold uppercase tracking-widest text-xs sm:text-sm animate-pulse">
+        <div className="bg-primary-500 text-[#050505] text-center py-3 px-4 font-bold uppercase tracking-[0.2em] text-[10px] sm:text-xs">
           {content.promoText}
         </div>
       )}
 
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+      <nav className="bg-[#050505] border-b border-white/10 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary-500/30">
-                <span className="font-bold text-lg">N</span>
-              </div>
-              <span className="italic font-black text-xl tracking-tight text-gray-900 uppercase">NET<span className="text-primary-600">GIGA</span></span>
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center gap-3">
+              <span className="font-display text-3xl sm:text-4xl tracking-tight text-white uppercase transform -skew-x-6">WIZ<span className="text-primary-500">NET</span></span>
             </div>
             <div>
-              <Link to="/admin" className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-primary-600 transition-colors">
+              <Link to="/admin" className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-white/50 hover:text-primary-500 transition-colors">
                 Admin Login
               </Link>
             </div>
@@ -67,148 +77,142 @@ export default function Storefront() {
       </nav>
 
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-10 sm:pt-16 lg:pt-20 px-4 sm:px-6 lg:px-8">
-            <main className="mx-auto max-w-7xl sm:mt-12 md:mt-16 lg:mt-20 xl:mt-28">
-              <div className="sm:text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-600 text-xs font-bold rounded-full mb-6 uppercase tracking-wider">
-                  <Zap size={14} className="fill-orange-600" />
-                  <span>Koneksi Fiber Optic Terbaik 2024</span>
-                </div>
-                <h1 className="text-4xl tracking-tight font-black text-gray-900 sm:text-5xl md:text-6xl max-w-2xl leading-tight">
-                  {content.heroTitle}
-                </h1>
-                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  {content.heroSubtitle}
-                </p>
-                <div className="mt-8 sm:mt-12 sm:flex sm:justify-center lg:justify-start gap-4">
-                  <div className="rounded-lg shadow-sm">
-                    <a href="#packages" className="w-full flex items-center justify-center px-8 py-3.5 border border-transparent text-sm font-bold uppercase tracking-widest rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition-all duration-200 md:py-4 md:px-10 hover:shadow-lg hover:shadow-primary-600/30">
-                      Lihat Paket
-                    </a>
-                  </div>
-                  <div className="mt-3 sm:mt-0">
-                    <a href="#features" className="w-full relative flex items-center justify-center px-8 py-3.5 font-bold uppercase tracking-widest rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 md:py-4 text-sm md:px-10 border border-gray-200 group">
-                      Pelajari Dulu
-                      <ArrowRight size={18} className="ml-2 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </main>
+      <div className="relative overflow-hidden bg-[#050505] py-20 pb-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center gap-12">
+          <div className="w-full lg:w-3/5">
+            <div className="transform -skew-x-6">
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-primary-500 mb-4 sm:ml-2">Koneksi Fiber Optic Terbaik 2024</p>
+              <h1 className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-[110px] text-white uppercase leading-[0.85] tracking-tight mb-8">
+                {content.heroTitle}
+              </h1>
+            </div>
+            <p className="mt-8 text-base sm:text-xl text-white/70 max-w-xl font-medium tracking-wide">
+              {content.heroSubtitle}
+            </p>
+            <div className="mt-12 flex flex-col sm:flex-row gap-6">
+              <button onClick={() => handleOrder('layanan ' + content.heroTitle)} className="flex items-center justify-center gap-3 px-8 py-5 border border-primary-500 text-[11px] font-bold uppercase tracking-[0.15em] rounded-none text-[#050505] bg-primary-500 hover:bg-transparent hover:text-primary-500 transition-colors">
+                <WhatsappIcon size={18} />
+                Hubungi Kami
+              </button>
+              <a href="#packages" className="flex items-center justify-center px-8 py-5 border border-white/20 text-[11px] font-bold uppercase tracking-[0.15em] rounded-none text-white hover:bg-white/10 transition-colors">
+                Lihat Paket <ArrowRight size={18} className="ml-3" />
+              </a>
+            </div>
           </div>
-        </div>
-        <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 mt-10 lg:mt-0 pt-0 lg:pt-0 pb-10 lg:pb-0 px-4 sm:px-6 lg:px-0">
-          <div className="relative h-64 sm:h-72 md:h-96 lg:h-full w-full rounded-2xl lg:rounded-none overflow-hidden shadow-xl lg:shadow-none">
-            <img
-              className="absolute inset-0 w-full h-full object-cover"
-              src={content.heroImage}
-              alt="Perangkat internet wifi dan keluarga"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/20 to-transparent lg:block hidden"></div>
-            <div className="absolute inset-0 bg-primary-600/10 mix-blend-multiply"></div>
+          <div className="w-full lg:w-2/5 mt-10 lg:mt-0 relative group perspective-1000 hidden sm:block">
+            <div className="relative h-[300px] sm:h-[400px] w-full transform rotate-3 sm:-rotate-3 translate-x-4 sm:translate-x-0 transition-transform duration-700 ease-out group-hover:rotate-0">
+               <img
+                  className="absolute inset-0 w-full h-full object-cover filter grayscale contrast-125 opacity-80 mix-blend-luminosity border border-white/10"
+                  src={content.heroImage}
+                  alt="Wifi connection"
+                />
+               <div className="absolute inset-0 bg-primary-500 mix-blend-color opacity-30"></div>
+            </div>
+            {/* abstract floating element */}
+            <div className="absolute -bottom-10 -left-10 text-[120px] lg:text-[150px] font-display text-primary-500/20 leading-none pointer-events-none transform -skew-x-12 select-none">
+              FAST
+            </div>
           </div>
         </div>
       </div>
 
       {/* Features Outline */}
-      <div id="features" className="bg-gray-50 py-16 sm:py-24">
+      <div id="features" className="bg-[#0a0a0a] border-y border-white/5 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4">
-                <Zap size={24} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-y-16 gap-x-12">
+            <div className="relative pt-12 md:pt-0">
+              <div className="text-[100px] lg:text-[120px] font-display text-white/5 mb-[-70px] leading-none absolute top-0 -left-4 md:-top-12 md:-left-6 z-0 pointer-events-none select-none">01</div>
+              <div className="relative z-10 border-t border-primary-500 pt-6">
+                <h3 className="text-xl font-display uppercase tracking-wider text-white mb-4">Simetris 1:1</h3>
+                <p className="text-white/60 text-sm leading-relaxed">Kecepatan Upload dan Download yang sama rata tanpa hambatan sedikitpun.</p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Simetris 1:1</h3>
-              <p className="text-gray-500">Kecepatan Upload dan Download yang sama rata tanpa hambatan sedikitpun.</p>
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-4">
-                <Wifi size={24} />
+            <div className="relative pt-12 md:pt-0">
+              <div className="text-[100px] lg:text-[120px] font-display text-white/5 mb-[-70px] leading-none absolute top-0 -left-4 md:-top-12 md:-left-6 z-0 pointer-events-none select-none">02</div>
+              <div className="relative z-10 border-t border-primary-500 pt-6">
+                <h3 className="text-xl font-display uppercase tracking-wider text-white mb-4">Unlimited Asli</h3>
+                <p className="text-white/60 text-sm leading-relaxed">Tanpa FUP (Batas Pemakaian Wajar). Pakai sepuasnya tanpa takut kecepatan diturunkan.</p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Unlimited Asli</h3>
-              <p className="text-gray-500">Tanpa FUP (Batas Pemakaian Wajar). Pakai sepuasnya tanpa takut kecepatan diturunkan.</p>
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4">
-                <ShieldCheck size={24} />
+            <div className="relative pt-12 md:pt-0">
+              <div className="text-[100px] lg:text-[120px] font-display text-white/5 mb-[-70px] leading-none absolute top-0 -left-4 md:-top-12 md:-left-6 z-0 pointer-events-none select-none">03</div>
+              <div className="relative z-10 border-t border-primary-500 pt-6">
+                <h3 className="text-xl font-display uppercase tracking-wider text-white mb-4">Anti Gangguan</h3>
+                <p className="text-white/60 text-sm leading-relaxed">Infrastruktur kabel optik tahan cuaca ekstrem dengan jaminan Uptime 99.9%.</p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Anti Gangguan</h3>
-              <p className="text-gray-500">Infrastruktur kabel optik tahan cuaca ekstrem dengan jaminan Uptime 99.9%.</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Pricing Section */}
-      <div id="packages" className="bg-white py-16 sm:py-24">
+      <div id="packages" className="bg-[#050505] py-24 sm:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="sm:text-center mb-16">
-            <h2 className="text-3xl font-black text-gray-900 sm:text-4xl tracking-tight">Pilih Paket Internet Sesuai Kebutuhanmu</h2>
-            <p className="mt-4 text-sm sm:text-base text-gray-500 max-w-3xl sm:mx-auto">
+          <div className="mb-20 transform -skew-x-2 md:-skew-x-6 text-center md:text-left">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-display text-white uppercase tracking-tight leading-[0.85]">Paket<br/><span className="text-primary-500">Internet</span></h2>
+            <p className="mt-6 text-xs sm:text-sm uppercase tracking-[0.2em] text-white/50 max-w-3xl">
               Satu harga pasti, tanpa biaya tersembunyi.
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {packages.map((pkg) => (
               <div 
                 key={pkg.id} 
-                className={`relative flex flex-col p-8 rounded-2xl w-full max-w-sm transition-all duration-300 hover:-translate-y-2 overflow-hidden
-                  ${pkg.popular ? 'bg-slate-900 text-white shadow-2xl' : 'bg-white border border-slate-200 shadow-sm'}`}
+                className={`relative flex flex-col p-8 border ${pkg.popular ? 'border-primary-500 bg-[#0a0a0a]' : 'border-white/10 bg-transparent'} transition-all duration-300 hover:border-primary-500 group`}
               >
                 {pkg.popular && (
-                  <div className="absolute -top-4 -right-4 w-32 h-32 bg-primary-500/20 rounded-full blur-2xl"></div>
+                  <div className="absolute top-0 right-0 bg-primary-500 text-[#050505] text-[10px] font-bold uppercase tracking-widest px-3 py-1 transform translate-x-1 -translate-y-1/2">
+                    Terlaris
+                  </div>
                 )}
                 
-                <div className="mb-4 relative z-10 flex justify-between items-start gap-4">
+                <div className="mb-8 flex justify-between items-start gap-4 border-b border-white/10 pb-6">
                   <div>
-                    {pkg.popular && <p className="text-[10px] text-primary-300 font-bold uppercase mb-1 tracking-widest">Variant Terlaris</p>}
-                    <h3 className={`text-xl font-bold ${pkg.popular ? 'text-white' : 'text-gray-900'}`}>{pkg.name}</h3>
-                    <div className="mt-2 flex flex-col gap-1">
-                      <div className={`flex items-baseline text-4xl font-black tracking-tight ${pkg.popular ? 'text-white' : 'text-primary-600'}`}>
-                        {pkg.speed}
+                    <h3 className="text-xl sm:text-2xl font-display uppercase tracking-wider text-white group-hover:text-primary-500 transition-colors">{pkg.name}</h3>
+                    <div className="mt-2 flex items-baseline gap-2">
+                      <div className="text-4xl sm:text-5xl font-display text-white">
+                        {pkg.speed.split(' ')[0]}
                       </div>
+                      <span className="text-sm font-semibold tracking-widest text-primary-500 uppercase">{pkg.speed.split(' ')[1] || 'MBPS'}</span>
                     </div>
                   </div>
-                  {renderPackageIcon(pkg)}
+                  <div className="text-white/20 group-hover:text-white/40 transition-colors">
+                    <Wifi size={28} />
+                  </div>
                 </div>
 
-                <div className="mb-6 flex flex-col relative z-10">
+                <div className="mb-8">
                   {pkg.promoPrice && content.promoActive ? (
                     <>
-                      <span className={`text-xs line-through opacity-50 ${pkg.popular ? 'text-gray-300' : 'text-gray-400'}`}>{formatRp(pkg.normalPrice)}/bln</span>
-                      <div className="flex items-baseline">
-                        <span className={`text-2xl font-bold ${pkg.popular ? 'text-orange-400' : 'text-gray-900'}`}>{formatRp(pkg.promoPrice)}</span>
-                      </div>
+                      <span className="text-[11px] line-through opacity-50 text-white/40 uppercase tracking-widest block mb-1">{formatRp(pkg.normalPrice)} / BLN</span>
+                      <div className="text-2xl font-display text-primary-500 tracking-wide">{formatRp(pkg.promoPrice)}</div>
                     </>
                   ) : (
-                    <div className="flex items-baseline">
-                      <span className={`text-2xl font-bold ${pkg.popular ? 'text-orange-400' : 'text-gray-900'}`}>{formatRp(pkg.normalPrice)}</span>
-                    </div>
+                    <div className="text-2xl font-display text-primary-500 pt-5 tracking-wide">{formatRp(pkg.normalPrice)}</div>
                   )}
                 </div>
 
-                <ul className="flex-1 space-y-3 mb-8 relative z-10">
+                <ul className="flex-1 space-y-4 mb-10">
                   {pkg.features.map((feature, i) => (
-                    <li key={i} className={`flex items-center gap-3 text-xs opacity-90 ${pkg.popular ? 'text-white' : 'text-gray-700'}`}>
-                      <div className="flex-shrink-0 w-5 h-5 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center">
-                        <Check size={12} strokeWidth={3} />
+                    <li key={i} className="flex items-start gap-3 text-xs uppercase tracking-wider text-white/70">
+                      <div className="flex-shrink-0 mt-0.5 text-primary-500">
+                        <Check size={14} strokeWidth={3} />
                       </div>
-                      <p>{feature}</p>
+                      <p className="leading-snug">{feature}</p>
                     </li>
                   ))}
                 </ul>
 
                 <button
                   onClick={() => handleOrder(pkg.name)}
-                  className={`mt-6 block w-full py-3.5 px-4 rounded-lg font-bold text-xs uppercase tracking-widest text-center transition-colors relative z-10
+                  className={`w-full flex items-center justify-center gap-3 py-4 border text-[11px] font-bold uppercase tracking-[0.15em] transition-colors
                     ${pkg.popular 
-                      ? 'bg-white text-gray-900 hover:bg-gray-100' 
-                      : 'bg-primary-50 text-primary-700 hover:bg-primary-100'}`}
+                      ? 'bg-primary-500 border-primary-500 text-[#050505] hover:bg-transparent hover:text-primary-500' 
+                      : 'border-white/20 text-white hover:border-primary-500 hover:text-primary-500'}`}
                 >
-                  Langganan Sekarang
+                  <WhatsappIcon size={16} />
+                  Langganan
                 </button>
               </div>
             ))}
@@ -216,14 +220,23 @@ export default function Storefront() {
         </div>
       </div>
       
+      {/* Floating WhatsApp Widget */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <button 
+          onClick={() => handleOrder('promo terbaru')}
+          className="bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 hover:scale-110 active:scale-95 transition-all flex items-center justify-center"
+        >
+          <WhatsappIcon size={28} />
+        </button>
+      </div>
+
       {/* Footer */}
-      <footer className="bg-gray-900 py-12 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <Wifi size={24} className="text-primary-500" />
-            <span className="font-bold text-xl tracking-tight text-white">WiFi<span className="text-primary-500">Speed</span></span>
+      <footer className="bg-[#050505] border-t border-white/10 py-16 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+          <div className="mb-6 transform -skew-x-6">
+            <span className="font-display text-4xl tracking-tight text-white uppercase opacity-40">WIZ<span className="text-primary-500">NET</span></span>
           </div>
-          <p className="text-gray-400">© 2024 WiFiSpeed Pro. All rights reserved.</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">© 2024 Wiznet. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useAppContext, WifiPackage } from '../store/AppContext';
-import { Settings, Image as ImageIcon, CheckCircle, Tag, Plus, Trash2, Edit2, Package as PackageIcon, ArrowLeft, Gamepad, Home, Building2, Zap, Wifi } from 'lucide-react';
+import { Settings, Image as ImageIcon, CheckCircle, Tag, Plus, Trash2, Edit2, Package as PackageIcon, ArrowLeft, Gamepad, Home, Building2, Zap, Wifi, LogOut, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Admin() {
-  const { content, updateContent, packages, addPackage, updatePackage, deletePackage } = useAppContext();
+  const { content, updateContent, packages, addPackage, updatePackage, deletePackage, isAuthenticated, login, logout } = useAppContext();
   
   const [activeTab, setActiveTab] = useState<'content' | 'packages'>('content');
   const [editingPkg, setEditingPkg] = useState<WifiPackage | null>(null);
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState(false);
   
   // Package Form state
   const [pkgForm, setPkgForm] = useState<Partial<WifiPackage>>({});
@@ -60,6 +62,52 @@ export default function Admin() {
     setPkgForm({...pkgForm, features: newFeatures});
   };
 
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (login(password)) {
+      setLoginError(false);
+    } else {
+      setLoginError(true);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-primary-600 rounded-2xl flex items-center justify-center text-white mx-auto shadow-lg shadow-primary-500/30 mb-4">
+              <Lock size={32} />
+            </div>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight">Admin Login</h1>
+            <p className="text-slate-500 mt-2 text-sm">Silakan masukkan password untuk mengakses dashboard (Hint: admin123)</p>
+          </div>
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Password</label>
+              <input 
+                type="password" 
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full text-base border border-slate-200 rounded-lg p-3 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                placeholder="••••••••"
+              />
+              {loginError && <p className="text-red-500 text-xs mt-2 font-medium">Password salah. Coba lagi.</p>}
+            </div>
+            <button type="submit" className="w-full bg-primary-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-primary-700 shadow-md shadow-primary-500/20 transition-all text-sm uppercase tracking-widest">
+              Login ke Dashboard
+            </button>
+          </form>
+          <div className="mt-8 text-center border-t border-slate-100 pt-6">
+            <Link to="/" className="text-sm font-medium text-slate-500 hover:text-primary-600 inline-flex items-center gap-2 transition-colors">
+              <ArrowLeft size={16} /> Kembali ke Landing Page
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
       {/* Sidebar */}
@@ -69,7 +117,7 @@ export default function Admin() {
             <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
               <span className="font-bold text-lg text-white">N</span>
             </div>
-            NETGIGA Admin
+            WIZNET Admin
           </h1>
         </div>
         <nav className="p-4 flex-1 space-y-1">
@@ -88,8 +136,11 @@ export default function Admin() {
             Kelola Paket
           </button>
         </nav>
-        <div className="p-4 border-t border-slate-800">
-          <Link to="/" className="flex items-center gap-2 text-sm text-slate-400 hover:text-white font-medium pb-2 transition-colors">
+        <div className="p-4 border-t border-slate-800 space-y-2">
+          <button onClick={logout} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-slate-800">
+            <LogOut size={16} /> Keluar
+          </button>
+          <Link to="/" className="flex items-center gap-2 text-sm text-slate-400 hover:text-white font-medium px-4 py-2 transition-colors">
             <ArrowLeft size={16} /> Kembali ke Web
           </Link>
         </div>
